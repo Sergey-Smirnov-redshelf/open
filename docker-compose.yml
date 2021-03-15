@@ -1,0 +1,34 @@
+# Version tag
+version: "3"
+
+services:
+
+  server:
+
+    # Set path to Dockerfile.
+    build: server/
+    image: ssmirnoff/server:latest
+
+    # The command to run after creating the image.
+    # Start "python ./server.py".
+    command: python ./server.py
+
+    # Port forwarding.
+    ports:
+      - 1111:1111
+
+  client:
+
+    # Set path to Dockerfile for client.
+    build: client/
+    image: ssmirnoff/client:latest
+
+    # Start "python ./client.py".
+    command: python ./client.py
+
+    # Indicate that the container can access the 'localhost' of the computer.
+    network_mode: host
+
+    # The 'client' service is waiting for the 'server' service to be ready.
+    depends_on:
+      - server
